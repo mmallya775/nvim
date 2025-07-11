@@ -1,4 +1,4 @@
-return 	{
+return {
   "nvimtools/none-ls.nvim",
   dependencies = {
     "nvimtools/none-ls-extras.nvim",
@@ -12,7 +12,7 @@ return 	{
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettier,
         null_ls.builtins.completion.spell,
-       -- null_ls.builtins.diagnostics.clj_kondo,
+        -- null_ls.builtins.diagnostics.clj_kondo,
         null_ls.builtins.formatting.cljfmt,
         null_ls.builtins.diagnostics.golangci_lint,
         null_ls.builtins.code_actions.gomodifytags,
@@ -27,7 +27,6 @@ return 	{
       },
     })
     --keymaps for null ls related stuff
-    vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})  
-  end
+    vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+  end,
 }
-
