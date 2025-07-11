@@ -15,12 +15,38 @@ return {
 			-- Set up nvim-cmp.
 			local cmp = require("cmp")
 			require("luasnip.loaders.from_vscode").lazy_load()
-
+			local kind_icons = {
+				Text = "󰉿",
+				Method = "󰆧",
+				Function = "󰊕",
+				Constructor = "",
+				Field = "󰜢",
+				Variable = "󰀫",
+				Class = "󰠱",
+				Interface = "",
+				Module = "",
+				Property = "󰜢",
+				Unit = "󰑭",
+				Value = "󰎠",
+				Enum = "",
+				Keyword = "󰌋",
+				Snippet = "",
+				Color = "󰏘",
+				File = "󰈙",
+				Reference = "󰈇",
+				Folder = "󰉋",
+				EnumMember = "",
+				Constant = "󰏿",
+				Struct = "󰙅",
+				Event = "",
+				Operator = "󰆕",
+				TypeParameter = "",
+			}
 			cmp.setup({
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
-						vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+						--vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
@@ -61,8 +87,38 @@ return {
 						name = "buffer",
 					},
 				}),
-			})
+				formatting = {
+					format = function(entry, vim_item)
+						-- Get the icon for the current kind
+						local icon = kind_icons[vim_item.kind] or ""
 
+						-- Prepend the icon to the abbreviation (the main completion text)
+						-- Add a space after the icon for better readability
+						vim_item.abbr = string.format("%s %s", icon, vim_item.abbr)
+
+						-- You can choose to keep the 'kind' as well if you want it duplicated,
+						-- or you can make it an empty string if the icon alone is enough.
+						-- If you want to completely remove the 'kind' text from its original column,
+						-- you can set vim_item.kind = "".
+						-- For now, let's keep it as is, so you have both the icon in abbr and the kind in its column.
+						-- If you don't want the kind column at all, you might need to adjust cmp sources or formatting options.
+
+						-- (Optional: if you want the original kind text removed from its column after moving the icon)
+						-- vim_item.kind = ""
+
+						-- Set the menu source
+						vim_item.menu = ({
+							buffer = "[Buffer]",
+							nvim_lsp = "[LSP]",
+							luasnip = "[Snippet]",
+							path = "[Path]",
+							nvim_lua = "[Lua]",
+						})[entry.source.name]
+
+						return vim_item
+					end,
+				},
+			})
 		end,
 	},
 }

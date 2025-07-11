@@ -1,21 +1,66 @@
 return {
+
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.8",
-		dependencies = { "nvim-lua/plenary.nvim" },
-
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope-live-grep-args.nvim",
+		},
 		config = function()
+			local telescope = require("telescope")
 			local builtin = require("telescope.builtin")
+			local lga_actions = require("telescope-live-grep-args.actions")
+
+			telescope.setup({
+				extensions = {
+					live_grep_args = {
+						auto_quoting = true,
+						mappings = {
+							i = {
+								["<C-k>"] = lga_actions.quote_prompt(),
+								["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+							},
+						},
+					},
+				},
+				defaults = {
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+					},
+				},
+			})
+
+			telescope.load_extension("live_grep_args")
+
+			-- Mappings
 			vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Telescope find files" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+			vim.keymap.set(
+				"n",
+				"<leader>fg",
+				telescope.extensions.live_grep_args.live_grep_args,
+				{ desc = "Live Grep with Args" }
+			)
 			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-
 			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, { desc = "LSP References" })
 			vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Find References" })
 			vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
+			vim.keymap.set(
+				"n",
+				"<leader>ds",
+				"<cmd>Telescope lsp_document_symbols<CR>",
+				{ noremap = true, silent = true }
+			)
 		end,
 	},
+
 	{
 		"nvim-telescope/telescope-ui-select.nvim",
 		config = function()

@@ -10,6 +10,13 @@ return {
   opts = {},
 
   config = function()
-    vim.keymap.set('n', '<C-n>', ':Neotree filesystem reveal left<CR>')
-  end
+    require("neo-tree").setup({
+      filesystem = {
+        filtered_items = {
+          visible = true,
+        },
+      },
+    })
+    vim.keymap.set("n", "<C-n>", ":Neotree filesystem reveal left<CR>")
+  end,
 }
