@@ -34,6 +34,18 @@ return {
 						"--column",
 						"--smart-case",
 					},
+
+					file_ignore_patterns = {
+						"./node_modules/*",
+						"node_modules",
+						"^node_modules/*",
+						"node_modules/*",
+						"target/*",
+						"^target/*",
+						"target",
+					},
+					-- In your defaults table
+					defaults = {},
 				},
 			})
 
@@ -58,6 +70,8 @@ return {
 				"<cmd>Telescope lsp_document_symbols<CR>",
 				{ noremap = true, silent = true }
 			)
+
+			-- Highlight groups can go here or elsewhere, but after termguicolors = true
 		end,
 	},
 
@@ -69,6 +83,9 @@ return {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({
 							-- even more opts
+							defaults = {
+								border = true,
+							},
 						}),
 
 						-- pseudo code / specification for writing custom displays, like the one

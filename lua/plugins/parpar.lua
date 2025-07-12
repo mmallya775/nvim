@@ -11,10 +11,10 @@ return {
         -- pass any nvim-paredit options here
         keys = {
           -- custom bindings are automatically wrapped
-          ["<A-H>"] = { paredit.api.slurp_backwards, "Slurp backwards" },
-          ["<A-J>"] = { paredit.api.barf_backwards, "Barf backwards" },
-          ["<A-K>"] = { paredit.api.barf_forwards, "Barf forwards" },
-          ["<A-L>"] = { paredit.api.slurp_forwards, "Slurp forwards" },
+          ["<leader>sb"] = { paredit.api.slurp_backwards, "Slurp backwards" },
+          ["<leader>bb"] = { paredit.api.barf_backwards, "Barf backwards" },
+          ["<leader>sf"] = { paredit.api.barf_forwards, "Barf forwards" },
+          ["<leader>bf"] = { paredit.api.slurp_forwards, "Slurp forwards" },
         },
       },
     })

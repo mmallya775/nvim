@@ -4,6 +4,9 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("set nowrap")
 
+vim.opt.showmode = false
+vim.opt.clipboard = "unnamedplus"
+
 vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 
 vim.cmd("set mouse=a")
