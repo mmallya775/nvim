@@ -22,5 +22,13 @@ return {
       end,
     })
     vim.cmd([[colorscheme tokyonight]])
+
+
+    vim.o.cursorline = true
+    -- Make all line numbers white
+    vim.api.nvim_set_hl(0, "LineNr", { fg = "#ffffff" })
+
+    -- Make the current line number orange
+    vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ff9e64", bold = true }) -- orange + bold
   end,
 }
