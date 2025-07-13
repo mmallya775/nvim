@@ -20,6 +20,6 @@ return {
 				position = "left", -- always open on the left
 			},
 		})
-		vim.keymap.set("n", "<C-n>", ":Neotree toggle left<CR>", { noremap = true, silent = true })
+		vim.keymap.set("n", "<C-n>", ":Neotree toggle left reveal<CR>", { noremap = true, silent = true })
 	end,
 }

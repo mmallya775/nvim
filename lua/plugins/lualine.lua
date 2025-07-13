@@ -4,7 +4,7 @@ return {
   config = function()
     --Lua-line setup
     require("lualine").setup({
-      options = { theme = "onelight" },
+      options = { theme = "material" },
       sections = {
         lualine_c = { { "filename", path = 1 } },
       },
