@@ -17,7 +17,7 @@ return {
 			"golines",
 			"prettier",
 			"spell",
-			"sqlfmt",
+			-- "sqlfmt",
 			"eslint_d",
 		},
 		automatic_installation = true,
