@@ -59,6 +59,9 @@ return {
 						-- require("cmp.config").set_onetime({ sources = {} })
 					end,
 				},
+				completion = {
+					autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+				},
 				window = {
 					completion = cmp.config.window.bordered(),
 					documentation = cmp.config.window.bordered(),
