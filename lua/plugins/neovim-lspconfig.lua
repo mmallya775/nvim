@@ -4,6 +4,10 @@ return {
 	config = function()
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+		require("lspconfig").clojure_lsp.setup({
+			capabilities = capabilities,
+		})
+
 		-- Configure hover handler with dark border
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
