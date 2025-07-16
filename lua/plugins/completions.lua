@@ -10,6 +10,22 @@ return {
     },
   },
   {
+    "neovim/nvim-lspconfig",
+
+    config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      require("lspconfig").clojure_lsp.setup({
+        capabilities = capabilities,
+      })
+
+      -- Configure hover handler with dark border
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+      vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+    end,
+  },
+  {
     "hrsh7th/nvim-cmp",
     config = function()
       -- Set up nvim-cmp.
@@ -61,6 +77,9 @@ return {
         },
         completion = {
           autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+          documentation = {
+            enabled = true,
+          },
         },
         window = {
           completion = cmp.config.window.bordered(),
@@ -76,10 +95,10 @@ return {
         sources = cmp.config.sources({
           {
             name = "nvim_lsp",
-            entry_filter = function(entry)
-              local kind = entry:get_kind()
-              return kind ~= require("cmp").lsp.CompletionItemKind.Text
-            end,
+            -- entry_filter = function(entry)
+            --   local kind = entry:get_kind()
+            --   return kind ~= require("cmp").lsp.CompletionItemKind.Text
+            -- end,
           },
           --	{ name = "vsnip" }, -- For vsnip users.
           { name = "luasnip" }, -- For luasnip users.
