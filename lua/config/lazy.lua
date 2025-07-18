@@ -92,23 +92,23 @@ vim.keymap.set("n", "<leader>dt", function()
 	end
 end, { desc = "Toggle diagnostic virtual text" })
 
--- When *any* LSP client attaches to a buffer…
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		-- Only continue if this client supports CodeLens
-		if client and client.server_capabilities.codeLensProvider then
-			-- First refresh as soon as the client is ready
-			vim.lsp.codelens.refresh()
-
-			-- Then keep lenses up to date while you work in that *same* buffer
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorHold", "InsertLeave" }, {
-				buffer = args.buf, -- buffer‑local: won’t affect other files
-				callback = function()
-					vim.lsp.codelens.refresh()
-				end,
-			})
-		end
-	end,
-})
+-- -- When *any* LSP client attaches to a buffer…
+-- vim.api.nvim_create_autocmd("LspAttach", {
+-- 	callback = function(args)
+-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- 		-- Only continue if this client supports CodeLens
+-- 		if client and client.server_capabilities.codeLensProvider then
+-- 			-- First refresh as soon as the client is ready
+-- 			vim.lsp.codelens.refresh()
+--
+-- 			-- Then keep lenses up to date while you work in that *same* buffer
+-- 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorHold", "InsertLeave" }, {
+-- 				buffer = args.buf, -- buffer‑local: won’t affect other files
+-- 				callback = function()
+-- 					vim.lsp.codelens.refresh()
+-- 				end,
+-- 			})
+-- 		end
+-- 	end,
+-- })
 

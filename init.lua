@@ -35,3 +35,4 @@ vim.api.nvim_set_hl(0, "@markup.raw.block.markdown", { italic = false })
 
 ---- Config part install
 require("config.lazy")
+

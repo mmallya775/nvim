@@ -15,9 +15,23 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- require("lspconfig").clojure_lsp.setup({
-      --   capabilities = capabilities,
-      -- })
+      require("lspconfig").clojure_lsp.setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          if client.server_capabilities.codeLensProvider then
+            -- Clear existing autocommands for this buffer
+            -- vim.api.nvim_clear_autocmds({ group = "lsp_codelens", buffer = bufnr })
+            --
+            -- -- Create the group (only once)
+            -- local group = vim.api.nvim_create_augroup("lsp_codelens", { clear = false })
+
+            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+              buffer = bufnr,
+              callback = vim.lsp.codelens.refresh,
+            })
+          end
+        end,
+      })
 
       -- Configure hover handler with dark border
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -75,12 +89,12 @@ return {
             -- require("cmp.config").set_onetime({ sources = {} })
           end,
         },
-        completion = {
-          autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
-          documentation = {
-            enabled = true,
-          },
-        },
+        -- completion = {
+        --   autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+        --   documentation = {
+        --     enabled = true,
+        --   },
+        -- },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -110,37 +124,78 @@ return {
             name = "buffer",
           },
         }),
-        formatting = {
-          format = function(entry, vim_item)
-            -- Get the icon for the current kind
-            local icon = kind_icons[vim_item.kind] or ""
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            -- Prioritize by kind (Variable > Function > others)
+            function(entry1, entry2)
+              local kind_order = {
+                Variable = 1,
+                Function = 2,
+                Method = 2,
+                Field = 3,
+                Property = 3,
+                Class = 4,
+                Keyword = 5,
+                Snippet = 6,
+                Text = 7,
+              }
 
-            -- Prepend the icon to the abbreviation (the main completion text)
-            -- Add a space after the icon for better readability
-            vim_item.abbr = string.format("%s %s", icon, vim_item.abbr)
+              local kind1 = kind_order
+                  [entry1:get_kind() and require("cmp.types").lsp.CompletionItemKind[entry1:get_kind()] or ""]
+                  or 100
+              local kind2 = kind_order
+                  [entry2:get_kind() and require("cmp.types").lsp.CompletionItemKind[entry2:get_kind()] or ""]
+                  or 100
 
-            -- You can choose to keep the 'kind' as well if you want it duplicated,
-            -- or you can make it an empty string if the icon alone is enough.
-            -- If you want to completely remove the 'kind' text from its original column,
-            -- you can set vim_item.kind = "".
-            -- For now, let's keep it as is, so you have both the icon in abbr and the kind in its column.
-            -- If you don't want the kind column at all, you might need to adjust cmp sources or formatting options.
+              if kind1 ~= kind2 then
+                return kind1 < kind2
+              end
+            end,
 
-            -- (Optional: if you want the original kind text removed from its column after moving the icon)
-            -- vim_item.kind = ""
-
-            -- Set the menu source
-            vim_item.menu = ({
-              buffer = "[Buffer]",
-              nvim_lsp = "[LSP]",
-              luasnip = "[Snippet]",
-              path = "[Path]",
-              nvim_lua = "[Lua]",
-            })[entry.source.name]
-
-            return vim_item
-          end,
+            -- Default comparators (preserve fallback behavior)
+            require("cmp.config.compare").offset,
+            require("cmp.config.compare").exact,
+            require("cmp.config.compare").score,
+            require("cmp.config.compare").recently_used,
+            require("cmp.config.compare").locality,
+            require("cmp.config.compare").kind,
+            require("cmp.config.compare").length,
+            require("cmp.config.compare").order,
+          },
         },
+
+        -- formatting = {
+        --   format = function(entry, vim_item)
+        --     -- Get the icon for the current kind
+        --     local icon = kind_icons[vim_item.kind] or ""
+        --
+        --     -- Prepend the icon to the abbreviation (the main completion text)
+        --     -- Add a space after the icon for better readability
+        --     vim_item.abbr = string.format("%s %s", icon, vim_item.abbr)
+        --
+        --     -- You can choose to keep the 'kind' as well if you want it duplicated,
+        --     -- or you can make it an empty string if the icon alone is enough.
+        --     -- If you want to completely remove the 'kind' text from its original column,
+        --     -- you can set vim_item.kind = "".
+        --     -- For now, let's keep it as is, so you have both the icon in abbr and the kind in its column.
+        --     -- If you don't want the kind column at all, you might need to adjust cmp sources or formatting options.
+        --
+        --     -- (Optional: if you want the original kind text removed from its column after moving the icon)
+        --     -- vim_item.kind = ""
+        --
+        --     -- Set the menu source
+        --     vim_item.menu = ({
+        --       buffer = "[Buffer]",
+        --       nvim_lsp = "[LSP]",
+        --       luasnip = "[Snippet]",
+        --       path = "[Path]",
+        --       nvim_lua = "[Lua]",
+        --     })[entry.source.name]
+        --
+        --     return vim_item
+        --   end,
+        -- },
       })
     end,
   },
