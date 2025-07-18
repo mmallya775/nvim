@@ -16,10 +16,10 @@ return {
 
 
 		-- Then override the Comment highlight group
-		vim.api.nvim_set_hl(0, "Comment", {
-			fg = "#988683", -- your desired color (e.g., a bright orange)
-			italic = false,
-		})
+		-- vim.api.nvim_set_hl(0, "Comment", {
+		-- 	fg = "#988683", -- your desired color (e.g., a bright orange)
+		-- 	italic = false,
+		-- })
 		-- vim.cmd.colorscheme("kanagawa")
 
 		-- Remove italics from vimOption
