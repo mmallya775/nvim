@@ -11,9 +11,27 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 
 vim.cmd("set mouse=a")
 
-vim.cmd("set number")
+vim.cmd("set relativenumber")
+
+vim.cmd("set termguicolors")
 -- Remove the search highlight
 vim.keymap.set("n", "<space><space>", ":nohlsearch<CR>")
+
+vim.o.cursorline = true
+
+
+vim.cmd [[
+  highlight CursorLineNr guifg=#000000 gui=bold
+  highlight LineNr guifg=#808080
+]]
+
+
+-- Disable italics in floating docs
+vim.api.nvim_set_hl(0, "LspMarkdownItalic", { italic = false })
+vim.api.nvim_set_hl(0, "@markup.italic.markdown", { italic = false })  -- Treesitter
+vim.api.nvim_set_hl(0, "markdownItalic", { italic = false })           -- Fallback
+
+vim.api.nvim_set_hl(0, "@markup.raw.block.markdown", { italic = false })
 
 ---- Config part install
 require("config.lazy")

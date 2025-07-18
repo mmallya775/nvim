@@ -31,7 +31,7 @@ return {
 				end,
 			},
 			-- skip clojure_lsp
-			["clojure_lsp"] = function() end,
+			-- ["clojure_lsp"] = function() end,
 		},
 		dependencies = {},
 	},
