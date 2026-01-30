@@ -15,10 +15,11 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			require("lspconfig").clojure_lsp.setup({
+			-- Updated to use new vim.lsp.config API (Neovim 0.11+)
+			vim.lsp.config("clojure_lsp", {
 				capabilities = capabilities,
 				lens = {
-					enable = false, -- Disable all CodeLens from rust-analyzer
+					enable = false, -- Disable all CodeLens from clojure_lsp
 				},
 				on_attach = function(client, bufnr)
 					if client.server_capabilities.codeLensProvider then
