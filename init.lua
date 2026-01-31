@@ -12,7 +12,7 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 vim.cmd("set mouse=a")
 
 vim.cmd("set number")
-vim.cmd("set relativenumber")
+-- vim.cmd("set relativenumber")
 
 vim.cmd("set termguicolors")
 -- Remove the search highlight
