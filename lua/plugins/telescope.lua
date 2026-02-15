@@ -1,123 +1,50 @@
 return {
-
   {
-    "nvim-telescope/telescope.nvim",
-   -- tag = "0.1.8",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-live-grep-args.nvim",
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      picker = {
+        enabled = true,
+        -- Retaining your ignore patterns
+        exclude = { "node_modules", "target" },
+      },
+      -- This replaces telescope-ui-select
+      input = { enabled = true },
+      select = { enabled = true },
     },
-    config = function()
-      local telescope = require("telescope")
-      local builtin = require("telescope.builtin")
-      local lga_actions = require("telescope-live-grep-args.actions")
+    keys = {
+      -- 1. Find Files (was <C-p>)
+      { "<C-p>", function() Snacks.picker.files() end, desc = "Find Files" },
+      
+      -- 2. Live Grep (replaces live_grep_args)
+      -- In Snacks, you can just type your args (like -g *.lua) directly in the picker
+      { "<leader>fg", function() Snacks.picker.grep() end, desc = "Live Grep" },
+      
+      -- 3. Resume (was <leader>ff)
+      { "<leader>ff", function() Snacks.picker.resume() end, desc = "Resume Last Picker" },
+      
+      -- 4. Buffers (was <leader>fb)
+      { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+      
+      -- 5. Help Tags (was <leader>fh)
+      { "<leader>fh", function() Snacks.picker.help() end, desc = "Help Pages" },
+      
+      -- 6. LSP References (was <leader>gr / <leader>fr)
+      { "<leader>gr", function() Snacks.picker.lsp_references() end, desc = "LSP References" },
+      { "<leader>fr", function() Snacks.picker.lsp_references() end, desc = "LSP References" },
+      
+      -- 7. Document Symbols (was <leader>ds)
+      { "<leader>ds", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+      
+      -- 8. Code Lens (LSP remains a vim.lsp call, but Snacks can trigger it)
+      { "<leader>cl", function() vim.lsp.codelens.run() end, desc = "Run CodeLens" },
 
-      telescope.setup({
-        extensions = {
-          live_grep_args = {
-            auto_quoting = true,
-            mappings = {
-              i = {
-                ["<C-k>"] = lga_actions.quote_prompt(),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-              },
-            },
-          },
-        },
-        defaults = {
-          vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-          },
-
-          file_ignore_patterns = {
-            "./node_modules/*",
-            "node_modules",
-            "^node_modules/*",
-            "node_modules/*",
-            "target/*",
-            "^target/*",
-            "target",
-          },
-          -- In your defaults table
-          defaults = {},
-        },
-      })
-
-      telescope.load_extension("live_grep_args")
-
-      -- Mappings
-      vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Telescope find files" })
-      vim.keymap.set(
-        "n",
-        "<leader>fg",
-        telescope.extensions.live_grep_args.live_grep_args,
-        { desc = "Live Grep with Args" }
-      )
-
-      vim.keymap.set(
-        "n",
-        "<leader>ff",
-        ":Telescope resume<CR>",
-        {
-          desc =
-          "Open the previously selected grep window again to account for cases where it didn't jump to correct line",
-        }
-      )
-
-      vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
-      vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
-      vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, { desc = "LSP References" })
-      vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Find References" })
-      vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
-      vim.keymap.set(
-        "n",
-        "<leader>ds",
-        "<cmd>Telescope lsp_document_symbols<CR>",
-        { noremap = true, silent = true }
-      )
-
-      -- Highlight groups can go here or elsewhere, but after termguicolors = true
-    end,
-  },
-
-  {
-    "nvim-telescope/telescope-ui-select.nvim",
-    config = function()
-      require("telescope").setup({
-        extensions = {
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown({
-              -- even more opts
-              defaults = {
-                border = true,
-              },
-            }),
-
-            -- pseudo code / specification for writing custom displays, like the one
-            -- for "codeactions"
-            -- specific_opts = {
-            --   [kind] = {
-            --     make_indexed = function(items) -> indexed_items, width,
-            --     make_displayer = function(widths) -> displayer
-            --     make_display = function(displayer) -> function(e)
-            --     make_ordinal = function(e) -> string
-            --   },
-            --   -- for example to disable the custom builtin "codeactions" display
-            --      do the following
-            --   codeactions = false,
-            -- }
-          },
-        },
-      })
-      -- To get ui-select loaded and working with telescope, you need to call
-      -- load_extension, somewhere after setup function:
-      require("telescope").load_extension("ui-select")
-    end,
+      -- Git snacks pickers
+      -- Add these to your Snacks.nvim keys table
+{ "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+{ "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+    },
   },
 }
