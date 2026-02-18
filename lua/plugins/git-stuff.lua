@@ -7,7 +7,9 @@ return {
 			-- "nvim-telescope/telescope.nvim",
 		},
 		config = function()
-			require("neogit").setup({})
+			require("neogit").setup({
+      graphical_diff = true, -- This enables syntax highlighting in diffs
+      })
 		end,
 		keys = {
 			{ "<leader>gg", "<cmd>Neogit<CR>", desc = "Neogit" },

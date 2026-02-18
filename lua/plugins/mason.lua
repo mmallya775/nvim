@@ -20,7 +20,7 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { "lua_ls", "clojure_lsp", "gopls" },
+      ensure_installed = { "clojure_lsp" },
       handlers = {
         function(server_name)
           local capabilities = require("cmp_nvim_lsp").default_capabilities()
