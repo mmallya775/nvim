@@ -12,7 +12,7 @@ return {
 				-- null_ls.builtins.formatting.stylua,
 				-- null_ls.builtins.formatting.prettier,
 				-- null_ls.builtins.completion.spell,
-				null_ls.builtins.diagnostics.clj_kondo,
+				-- null_ls.builtins.diagnostics.clj_kondo,
 				null_ls.builtins.formatting.cljfmt,
 				-- null_ls.builtins.diagnostics.golangci_lint,
 				-- null_ls.builtins.code_actions.gomodifytags,
