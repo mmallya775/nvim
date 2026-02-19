@@ -18,6 +18,9 @@ return {
 			},
 			window = {
 				position = "left", -- always open on the left
+        mappings = {
+					["<Tab>"] = "toggle_node", -- Use tab to expand 
+				},
 			},
 		})
 		vim.keymap.set("n", "<C-n>", ":Neotree toggle left reveal<CR>", { noremap = true, silent = true })

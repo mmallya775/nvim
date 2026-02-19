@@ -12,6 +12,6 @@ return {
       no_italic = true,
     })
 
-    vim.cmd.colorscheme "catppuccin-mocha"
+    -- vim.cmd.colorscheme "catppuccin-mocha"
   end,
 }

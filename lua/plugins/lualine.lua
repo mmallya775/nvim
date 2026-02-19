@@ -5,7 +5,7 @@ return {
 		--Lua-line setup
 		require("lualine").setup({
 			options = {
-				theme = "tokyonight",
+				theme = "onedark",
 				component_separators = "",
 				section_separators = { left = "", right = "" },
 			},
