@@ -42,9 +42,10 @@ return {
 
       -- Git snacks pickers
       -- Add these to your Snacks.nvim keys table
-{ "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
-{ "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+
+      { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+      { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
     },
   },
 }

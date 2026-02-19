@@ -34,3 +34,23 @@ vim.cmd([[
   highlight CursorLineNr guifg=#facf11 gui=bold
   highlight LineNr guifg=#808080
 ]])
+
+vim.opt.diffopt:append({
+  "algorithm:histogram",
+  "indent-heuristic",
+  "linematch:60",
+})
+
+
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "VeryLazy",
+--   callback = function()
+--     local ok, snacks = pcall(require, "snacks")
+--     if not ok then return end
+--
+--     vim.keymap.set("n", "<leader>gl", function() snacks.picker.git_log() end, { desc = "Git Log" })
+--     vim.keymap.set("n", "<leader>gs", function() snacks.picker.git_status() end, { desc = "Git Status" })
+--     vim.keymap.set("n", "<leader>gd", function() snacks.picker.git_diff() end, { desc = "Git Diff (Hunks)" })
+--   end,
+-- })
+--
