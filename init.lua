@@ -1,0 +1,7 @@
+require('config.lsp')
+require('config.options')
+require('config.keymaps')
+require('config.plugins')
+require('config.completion')
+require('config.diagnostics')
+vim.cmd('packadd nvim.undotree')
