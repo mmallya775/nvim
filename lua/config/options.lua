@@ -7,3 +7,5 @@ vim.g.maplocalleader = ","
 
 vim.opt.number = true
 vim.opt.relativenumber = false
+
+vim.opt.fixendofline = false
