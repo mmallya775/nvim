@@ -48,6 +48,51 @@ return {
           paredit.api.raise_form,
           "Paredit: Raise form",
         },
+        ["<C-f>"] = {
+          paredit.api.move_to_next_element_head,
+          "Paredit: Next element",
+          repeatable = false,
+          mode = { "n", "x", "o", "v" },
+        },
+
+        ["<C-b>"] = {
+          paredit.api.move_to_prev_element_head,
+          "Paredit: Previous element",
+          repeatable = false,
+          mode = { "n", "x", "o", "v" },
+        },
+        -- Structural motions used by deletion operators.
+        ["E"] = {
+          paredit.api.move_to_next_element_tail,
+          "Paredit: Next element tail",
+          repeatable = false,
+          mode = { "o" },
+        },
+
+        ["B"] = {
+          paredit.api.move_to_prev_element_head,
+          "Paredit: Previous element head",
+          repeatable = false,
+          mode = { "o" },
+        },
+
+        -- Kill sexp forward.
+        ["<M-d>"] = {
+          function()
+            vim.api.nvim_feedkeys("dE", "m", false)
+          end,
+          "Paredit: Kill sexp forward",
+          mode = { "n" },
+        },
+
+        -- Kill sexp backward.
+        ["<M-BS>"] = {
+          function()
+            vim.api.nvim_feedkeys("dB", "m", false)
+          end,
+          "Paredit: Kill sexp backward",
+          mode = { "n" },
+        },
       }
       return opts
     end,
