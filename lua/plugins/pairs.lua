@@ -4,19 +4,27 @@ return {
     opts = {
       skip_unbalanced = true,
     },
-    config = function(_, opts)
-      LazyVim.mini.pairs(opts)
 
-      local function map_pair_backspace(key)
-        vim.keymap.set("i", key, "v:lua.MiniPairs.bs()", {
-          expr = true,
-          replace_keycodes = false,
-          desc = "Pair-aware backspace",
-        })
-      end
-
-      map_pair_backspace("<BS>")
-      map_pair_backspace("<C-h>")
+    -- Let strict-paredit control pairs in Clojure buffers.
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "clojure",
+        callback = function()
+          vim.b.minipairs_disable = true
+        end,
+      })
     end,
+  },
+
+  {
+    "sundbp/strict-paredit.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    ft = { "clojure" },
+    opts = {
+      filetypes = { "clojure" },
+      notify = true,
+    },
   },
 }
