@@ -1,11 +1,15 @@
 return {
   {
     "saghen/blink.cmp",
+
     opts = {
       completion = {
-        menu = {
-          auto_show = true,
+        list = {
+          selection = {
+            preselect = false,
+          },
         },
+
         ghost_text = {
           enabled = false,
         },
