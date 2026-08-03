@@ -51,8 +51,8 @@ return {
         },
       }
 
-      -- Display:
-      -- project-name/path/to/current/file/directory/
+      -- Shows:
+      -- project-name/path/to/file/directory/
       --
       -- Example:
       -- scada-monitor/src/scada_ui/etl/
@@ -65,7 +65,6 @@ return {
           cwd_name = cwd
         end
 
-        -- Unnamed buffers still show the current working directory.
         if file == "" then
           return " " .. cwd_name .. "/"
         end
@@ -96,6 +95,24 @@ return {
         return " " .. table.concat(names, ", ")
       end
 
+      -- Shows the innermost function, method or form under the cursor.
+      local function current_symbol()
+        local ok, navic = pcall(require, "nvim-navic")
+
+        if not ok or not navic.is_available() then
+          return ""
+        end
+
+        local symbols = navic.get_data()
+        local symbol = symbols[#symbols]
+
+        if not symbol then
+          return ""
+        end
+
+        return (symbol.icon or "󰊕 ") .. symbol.name
+      end
+
       opts.options = vim.tbl_deep_extend("force", opts.options or {}, {
         theme = theme,
         globalstatus = true,
@@ -116,7 +133,6 @@ return {
           {
             "mode",
 
-            -- NORMAL -> Neovim icon + N
             fmt = function(mode)
               return " " .. mode:sub(1, 1)
             end,
@@ -183,6 +199,24 @@ return {
 
             color = {
               fg = text,
+              bg = bar_bg,
+            },
+
+            padding = {
+              left = 1,
+              right = 1,
+            },
+          },
+
+          {
+            current_symbol,
+
+            cond = function()
+              return vim.o.columns >= 120
+            end,
+
+            color = {
+              fg = p.springViolet2,
               bg = bar_bg,
             },
 
