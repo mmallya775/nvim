@@ -1,17 +1,29 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
     opts = {
-      theme = "wave",
-      commentStyle = { italic = false },
-      keywordStyle = { italic = false },
+      flavour = "mocha",
+      no_italic = true,
+      no_bold = false,
+      integrations = {
+        blink_cmp = true,
+        gitsigns = true,
+        native_lsp = {
+          enabled = true,
+        },
+        neotree = true,
+        snacks = true,
+        treesitter = true,
+        which_key = true,
+      },
     },
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa-wave",
+      colorscheme = "catppuccin-mocha",
     },
   },
 }
