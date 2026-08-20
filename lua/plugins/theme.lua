@@ -1,21 +1,36 @@
 return {
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "rebelot/kanagawa.nvim",
+    priority = 1000,
     opts = {
-      flavour = "mocha",
-      no_italic = true,
-      no_bold = false,
-      integrations = {
-        blink_cmp = true,
-        gitsigns = true,
-        native_lsp = {
-          enabled = true,
+      compile = false,
+      undercurl = true,
+
+      commentStyle = { italic = false },
+      keywordStyle = { italic = false },
+      statementStyle = { bold = false },
+      functionStyle = {},
+      typeStyle = {},
+
+      transparent = false,
+      dimInactive = false,
+      terminalColors = true,
+
+      theme = "dragon",
+
+      background = {
+        dark = "wave",
+        light = "lotus",
+      },
+
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
+            },
+          },
         },
-        neotree = true,
-        snacks = true,
-        treesitter = true,
-        which_key = true,
       },
     },
   },
@@ -23,7 +38,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-mocha",
+      colorscheme = "kanagawa-wave",
     },
   },
 }
