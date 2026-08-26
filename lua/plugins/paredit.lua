@@ -19,22 +19,22 @@ return {
       })
 
       opts.keys = {
-        ["<leader>psf"] = {
+        [">)"] = {
           paredit.api.slurp_forwards,
           "Paredit: Slurp forward",
         },
 
-        ["<leader>psb"] = {
-          paredit.api.slurp_backwards,
-          "Paredit: Slurp backward",
-        },
-
-        ["<leader>pbf"] = {
+        ["<)"] = {
           paredit.api.barf_forwards,
           "Paredit: Barf forward",
         },
 
-        ["<leader>pbb"] = {
+        ["<("] = {
+          paredit.api.slurp_backwards,
+          "Paredit: Slurp backward",
+        },
+
+        [">("] = {
           paredit.api.barf_backwards,
           "Paredit: Barf backward",
         },
