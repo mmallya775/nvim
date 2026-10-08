@@ -1,44 +1,37 @@
 return {
   {
-    "rebelot/kanagawa.nvim",
+    "navarasu/onedark.nvim",
+    lazy = false,
     priority = 1000,
     opts = {
-      compile = false,
-      undercurl = true,
-
-      commentStyle = { italic = false },
-      keywordStyle = { italic = false },
-      statementStyle = { bold = false },
-      functionStyle = {},
-      typeStyle = {},
+      style = "warmer", -- dark, darker, cool, deep, warm, warmer, light
 
       transparent = false,
-      dimInactive = false,
-      terminalColors = true,
+      term_colors = true,
 
-      theme = "dragon",
-
-      background = {
-        dark = "wave",
-        light = "lotus",
+      code_style = {
+        comments = "none",
+        keywords = "none",
+        functions = "none",
+        strings = "none",
+        variables = "none",
       },
 
-      colors = {
-        theme = {
-          all = {
-            ui = {
-              bg_gutter = "none",
-            },
-          },
-        },
+      diagnostics = {
+        darker = true,
+        undercurl = true,
+        background = true,
       },
     },
+    config = function(_, opts)
+      require("onedark").setup(opts)
+    end,
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa-wave",
+      colorscheme = "onedark",
     },
   },
 }
