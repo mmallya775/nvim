@@ -1,54 +1,42 @@
 return {
   {
     "saghen/blink.cmp",
-    opts = {
-      completion = {
-        list = {
-          selection = {
-            preselect = false,
-            auto_insert = false,
+    opts = function(_, opts)
+      -- LazyVim appends to sources.default instead of replacing it,
+      -- so filter "buffer" out of the existing list
+      opts.sources.default = vim.tbl_filter(function(source)
+        return source ~= "buffer"
+      end, opts.sources.default or {})
+
+      return vim.tbl_deep_extend("force", opts, {
+        completion = {
+          list = {
+            selection = { preselect = false },
+          },
+          ghost_text = { enabled = false },
+          menu = {
+            max_height = 10,
           },
         },
 
-        documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 300,
-        },
-
-        ghost_text = {
-          enabled = false,
-        },
-
-        accept = {
-          auto_brackets = {
-            enabled = false,
+        sources = {
+          providers = {
+            lsp = {
+              score_offset = 10,
+              -- drop plain-word "Text" items some LSPs return
+              transform_items = function(_, items)
+                local Text = require("blink.cmp.types").CompletionItemKind.Text
+                return vim.tbl_filter(function(item)
+                  return item.kind ~= Text
+                end, items)
+              end,
+            },
+            snippets = {
+              score_offset = -10,
+            },
           },
         },
-      },
-
-      sources = {
-        -- No automatic snippet suggestions
-        default = { "lsp", "buffer", "path" },
-
-        providers = {
-          lsp = {
-            fallbacks = {},
-
-            transform_items = function(_, items)
-              local kinds = require("blink.cmp.types").CompletionItemKind
-
-              return vim.tbl_filter(function(item)
-                return item.kind ~= kinds.Snippet and item.kind ~= kinds.Keyword
-              end, items)
-            end,
-          },
-
-          buffer = {
-            min_keyword_length = 1,
-            score_offset = -2,
-          },
-        },
-      },
-    },
+      })
+    end,
   },
 }

@@ -4,10 +4,8 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-      style = "warmer", -- dark, darker, cool, deep, warm, warmer, light
-
+      style = "warmer",
       transparent = false,
-      term_colors = true,
 
       code_style = {
         comments = "none",
@@ -20,12 +18,9 @@ return {
       diagnostics = {
         darker = true,
         undercurl = true,
-        background = true,
+        background = true, -- tinted virtual-text backgrounds
       },
     },
-    config = function(_, opts)
-      require("onedark").setup(opts)
-    end,
   },
 
   {
